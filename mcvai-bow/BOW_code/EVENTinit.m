@@ -6,9 +6,9 @@ clear eventopts
 
 % change these paths to point to the image, data and label location
 
-eventopts.imgpath=['/home/joost/students/master09/events']; % image path
-eventopts.datapath=['/home/joost/students/master09/data'];
-eventopts.labelspath=['/home/joost/students/master09/labels'];
+eventopts.imgpath=['../events']; % image path
+eventopts.datapath=['../data'];
+eventopts.labelspath=['../labels'];
 
 % local and global data paths
 eventopts.localdatapath=sprintf('%s/local',eventopts.datapath);

@@ -42,7 +42,7 @@ if(detect_flag==1)
         end
         waitbar(ii/nimages,h);
     end
-    
+
     save([opts.globaldatapath,'/',detector_opts.name,'_settings'],'detector_opts');        % save the settings of detector in opts.globaldatapath
     close(h);
 end
