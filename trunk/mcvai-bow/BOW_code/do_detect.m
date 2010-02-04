@@ -29,20 +29,24 @@ end
 if(detect_flag==1)
     display('Computing detector');
     
-    load(opts.image_names);         % load image in data set
-    nimages=opts.nimages;           % number of images in data set
+    load(opts.image_names); % load image in data set
+    nimages=opts.nimages; % number of images in data set
     
     h = waitbar(0,'Detector computation...');
     for ii=1:nimages                         
-        switch detector_opts.type   % select detector
+        switch detector_opts.type % select detector
             case 'rand'
-                random_detection(opts,detector_opts,ii);    % random detector
+                random_detection(opts,detector_opts,ii); % random detector
+            case 'sift'
+                sift_detection(opts,detector_opts,ii); % sift detector
+            case 'corner'
+                corner_detection(opts,detector_opts,ii); % corner detector
             otherwise
                 display('A non existing detector is selected !!!!!');        
         end
         waitbar(ii/nimages,h);
     end
 
-    save([opts.globaldatapath,'/',detector_opts.name,'_settings'],'detector_opts');        % save the settings of detector in opts.globaldatapath
+    save([opts.globaldatapath,'/',detector_opts.name,'_settings'],'detector_opts'); % save the settings of detector in opts.globaldatapath
     close(h);
 end

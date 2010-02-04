@@ -8,7 +8,7 @@ EVENTinit
 detect_opts=[];descriptor_opts=[];vocabulary_opts=[];assignment_opts=[];
 
 %% detector
-detect_opts.type='rand';                    % name detector
+detect_opts.type='corner'                   % name detector
 detect_opts.min_scale=5;                    % minimal scale of feature points
 detect_opts.max_scale=15;                   % maximal scale of feature points
 detect_opts.npoints=200;                    % number of feature points
