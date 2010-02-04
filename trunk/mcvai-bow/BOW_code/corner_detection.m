@@ -22,7 +22,8 @@ points(1:cornersLen, 1) = cout(1:cornersLen, 1);
 
 points(cornersLen:detector_opts.npoints,1)=ceil(points(cornersLen:detector_opts.npoints,1)*size(im,2));
 points(cornersLen:detector_opts.npoints,2)=ceil(points(cornersLen:detector_opts.npoints,2)*size(im,1));
-points(cornersLen:detector_opts.npoints,3)=ceil(points(cornersLen:detector_opts.npoints,3)*(detector_opts.max_scale-detector_opts.min_scale)+detector_opts.min_scale);
+
+points(:,3)=ceil(points(:,3)*(detector_opts.max_scale-detector_opts.min_scale)+detector_opts.min_scale);
 
 % save the detector results in image_dir
 % the detector is saved in the following format
