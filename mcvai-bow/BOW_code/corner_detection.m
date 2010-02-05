@@ -16,9 +16,12 @@ im = ind2gray(im, gray(256));
 
 points=rand(detector_opts.npoints,3);
 
+% Compute the length of the corners detected patches
 cornersLen = min(size(cout, 1), detector_opts.npoints);
 
-points(1:cornersLen, 1) = cout(1:cornersLen, 1);
+% Now assign the corners
+points(1:cornersLen, 1) = cout(1:cornersLen, 2);
+points(1:cornersLen, 2) = cout(1:cornersLen, 1);
 
 points(cornersLen:detector_opts.npoints,1)=ceil(points(cornersLen:detector_opts.npoints,1)*size(im,2));
 points(cornersLen:detector_opts.npoints,2)=ceil(points(cornersLen:detector_opts.npoints,2)*size(im,1));

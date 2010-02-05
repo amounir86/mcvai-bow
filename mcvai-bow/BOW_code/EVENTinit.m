@@ -37,7 +37,7 @@ eventopts.classes={...
     'sailing'
     'snowboarding'};
 
-eventopts.nclasses=length(eventopts.classes);	
+eventopts.nclasses=length(eventopts.classes);
 
 load(sprintf('%s',eventopts.labels));
 eventopts.nimages=size(labels,1);
