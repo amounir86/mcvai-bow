@@ -71,15 +71,15 @@ end
 
 tic
 BW=EDGE(I,'canny',[L,H]);  % Detect edges
-time_for_detecting_edge=toc
+% time_for_detecting_edge=toc
 
 tic
 [curve,curve_start,curve_end,curve_mode,curve_num]=extract_curve(BW,Gap_size);  % Extract curves
-time_for_extracting_curve=toc
+% time_for_extracting_curve=toc
 
 tic
 cout=get_corner(curve,curve_start,curve_end,curve_mode,curve_num,BW,sig,Endpoint,C,T_angle); % Detect corners
-time_for_detecting_corner=toc
+% time_for_detecting_corner=toc
 
 img=I;
 for i=1:size(cout,1)
