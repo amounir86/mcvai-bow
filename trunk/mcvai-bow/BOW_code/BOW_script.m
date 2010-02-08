@@ -11,8 +11,8 @@ detect_opts=[];descriptor_opts=[];vocabulary_opts=[];assignment_opts=[];
 detect_opts.type='corner'                   % name detector
 detect_opts.min_scale=5;                    % minimal scale of feature points
 detect_opts.max_scale=15;                   % maximal scale of feature points
-detect_opts.npoints=200;                    % number of feature points
-detect_opts.name=['DET4',detect_opts.type];  % name which is used to save the detector information
+detect_opts.npoints=400;                    % number of feature points
+detect_opts.name=['DET5',detect_opts.type];  % name which is used to save the detector information
 
 do_detect(eventopts,detect_opts);
 
@@ -48,6 +48,15 @@ do_classification_script
 %% Show average percision
 
 show_average_percision
+
+%% Average precision graphs
+
+figure, hold on
+for i=1:eventopts.nclasses
+    do_eval(eventopts,i,dec_values(:,i));
+end
+hold off
+figure
 
 %% Show results
 
