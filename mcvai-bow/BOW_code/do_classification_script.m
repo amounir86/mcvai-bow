@@ -16,7 +16,17 @@ test_labels     = labels(testset);           % contains the labels of the testse
 test_data       = BOW(:,testset)';           % contains the test data
 
 %% here you should of course use crossvalidation !
-cc=50;
-options=sprintf('-t 0 -c %f -b 1',cc);
+% cc=50;
+max_acc = -1;
+max_cc = -1;
+for cc=1:50
+    options=sprintf('-t 0 -c %f -v 5 -b 1',cc);
+    model=svmtrain(train_labels,train_data,options);
+    if (model > max_acc)
+        max_acc = model;
+        max_cc = cc;
+    end
+end
+options=sprintf('-t 0 -c %f -b 1',max_cc);
 model=svmtrain(train_labels,train_data,options);
 [predict_label, accuracy , dec_values] = svmpredict(test_labels,test_data, model,'-b 1');
