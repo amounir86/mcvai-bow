@@ -17,9 +17,9 @@ points_index=(1:size(points,1));            % an index to the features
                               
 counter=0;
 
-patches_R=zeros(size(points,1),patch_size*patch_size);
-patches_G=zeros(size(points,1),patch_size*patch_size);
-patches_B=zeros(size(points,1),patch_size*patch_size);
+% patches_R=zeros(size(points,1),patch_size*patch_size);
+% patches_G=zeros(size(points,1),patch_size*patch_size);
+% patches_B=zeros(size(points,1),patch_size*patch_size);
 
 while(sum(points_left))                     % as long as there are still points left to process
     counter=counter+1;
@@ -28,10 +28,12 @@ while(sum(points_left))                     % as long as there are still points 
     
     for ii=1:numel(index)    
         x=points(index(ii),1);y=points(index(ii),2);s=points(index(ii),3);
-        patch = fastAffineTransform( im, y-s,x-s , y+s, x-s, y-s, x+s, patch_size, patch_size, 'linear' );        % normalize patch
-        patches(index(ii),:,1)=reshape(patch(:,:,1),patch_size*patch_size,1);
-        patches(index(ii),:,2)=reshape(patch(:,:,2),patch_size*patch_size,1);
-        patches(index(ii),:,3)=reshape(patch(:,:,3),patch_size*patch_size,1);        
+%         patch = fastAffineTransform( im, y-s,x-s , y+s, x-s, y-s, x+s, patch_size, patch_size, 'linear' );        % normalize patch
+        patch = zeros(patch_size,patch_size,3);
+        [patch(:,:,1), patch(:,:,2), patch(:,:,3)] = meximresizecol(im(:,:,1), im(:,:,2), im(:,:,3), y-s, y+s , x-s, x+s , patch_size, patch_size);
+        patches(index(ii), :,1)=reshape(patch(:,:,1),patch_size*patch_size,1);
+        patches(index(ii), :,2)=reshape(patch(:,:,2),patch_size*patch_size,1);
+        patches(index(ii), :,3)=reshape(patch(:,:,3),patch_size*patch_size,1);   
     end
         
     points_left=points_left - selected_points;
