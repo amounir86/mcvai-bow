@@ -45,19 +45,17 @@ do_assignment(eventopts,assignment_opts);
 
 do_classification_script
 
-%% Show average percision
-
-show_average_percision
-
 %% Average precision graphs
 
-figure, hold on
-for i=1:eventopts.nclasses
-    do_eval(eventopts,i,dec_values(:,i));
+averagePerc = 1:eventopts.nclasses;
+figure(1), hold on
+for cl=1:eventopts.nclasses
+    [rec,prec,averagePerc(cl)] = do_eval(eventopts,cl,dec_values(:,cl));
 end
 hold off
-figure
 
 %% Show results
 
+figure(2), hold on;
 show_results_script                                        % comment if not needed
+hold off

@@ -28,12 +28,32 @@ for t=0:0.1:1
     ap=ap+p/11;
 end
 
+col = 'NONE';
+switch cls_index
+    case 1
+        col = 'y'
+    case 2
+        col = 'm'
+    case 3
+        col = 'c'
+    case 4
+        col = 'r'
+    case 5
+        col = 'g'
+    case 6
+        col = 'b'
+    case 7
+        col = 'k'
+    otherwise
+        'Hi';
+end
+
 if draw
     % plot precision/recall
-    plot(rec,prec,'-');
+    plot(rec,prec,'-', 'Color', col);
     grid;
     xlabel 'recall'
     ylabel 'precision'
-    title(sprintf('class: %s, AP = %.3f',opts.classes{cls_index},ap));
+    gtext(sprintf('class: %s, AP = %.3f',opts.classes{cls_index},ap), 'Color', col);
     axis([0 1 0 1]);
 end

@@ -9,7 +9,6 @@ indexes=1:eventopts.nimages;
 test_indexes=indexes(testset);
 
 for ii=1:eventopts.nclasses
-    figure(1);
     [max1,index]=sort(dec_values,'descend');
     Nplots=6;
     for jj=1:Nplots
