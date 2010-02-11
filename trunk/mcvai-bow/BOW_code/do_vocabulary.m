@@ -57,6 +57,8 @@ if(vocabulary_flag)
     switch vocabulary_opts.type     % select vocabulary
             case 'rand'
                 voc=points_total(ceil(rand(vocabulary_opts.size,1)*size(points_total,1)),:);
+            case 'kmeans'
+                [index,voc] = kmeans(points_total,vocabulary_opts.size);
             otherwise
                 display('A non existing vocabulary-method is selected !!!!!');    
     end
