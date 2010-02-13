@@ -36,9 +36,13 @@ if(descriptor_flag)
     nimages=opts.nimages;
     h = waitbar(0,'Please wait...');
     for ii=1:nimages
-        switch descriptor_opts.type         % select descriptor
+        switch descriptor_opts.type         % select descriptor   
             case 'rgb'
                 RGB_descriptor(opts,descriptor_opts,ii);
+            case 'sift'
+                SIFT_descriptor(opts,descriptor_opts,ii);
+            case 'rgbsift'
+                RGB_SIFT_descriptor(opts,descriptor_opts,ii);
             otherwise
                 display('A non existing descriptor is selected !!!!!');                
         end
