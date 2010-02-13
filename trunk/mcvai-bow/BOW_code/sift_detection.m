@@ -12,12 +12,9 @@ image_dir=sprintf('%s/%s/',opts.localdatapath,num2string(imIndex,3));    % where
 im=read_image_db(opts,imIndex);
 
 im = rgb2gray(ind2gray(im, gray(256)));
-[frames, descs] = sift(im);
+points = vl_sift(single(im));
+points = points';
 
-points=rand(detector_opts.npoints,3);
-points(:,1)=ceil(points(:,1)*size(im,2));
-points(:,2)=ceil(points(:,2)*size(im,1));
-points(:,3)=ceil(points(:,3)*(detector_opts.max_scale-detector_opts.min_scale)+detector_opts.min_scale);    
 
 % save the detector results in image_dir
 % the detector is saved in the following format

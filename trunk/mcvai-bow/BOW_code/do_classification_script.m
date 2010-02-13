@@ -15,18 +15,44 @@ train_data=train_data(sindex,:);
 test_labels     = labels(testset);           % contains the labels of the testset
 test_data       = BOW(:,testset)';           % contains the test data
 
-%% here you should of course use crossvalidation !
-% cc=50;
+%% manual cross-validation
 max_acc = -1;
 max_cc = -1;
-for cc=1:50
-    options=sprintf('-t 0 -c %f -v 5 -b 1',cc);
-    model=svmtrain(train_labels,train_data,options);
-    if (model > max_acc)
-        max_acc = model;
+
+for cc=1:10:500
+    options=sprintf('-t 0 -c %f -b 1',cc);
+    indices = crossvalind('Kfold',test_labels,5);
+    meanap = zeros(1,5);
+    for i=1:5
+        test_c = (indices == i);
+        test_labels_c = test_labels(test_c);
+        test_data_c = test_data(test_c,:);
+        train_labels_c = train_labels(~test_c);
+        train_data_c = train_data(~test_c,:);
+        model = svmtrain(train_labels_c,train_data_c,options);
+        [predict_label, accuracy , dec_values] = svmpredict(test_labels_c,test_data_c, model,'-b 1');
+        meanap(i) = mean_ap(eventopts,dec_values,test_labels_c);
+    end
+    disp(['Mean Average Precision: ' num2str(mean(meanap))])
+    if (mean(meanap) > max_acc)
+        max_acc = mean(meanap);
         max_cc = cc;
     end
 end
+
+%% here you should of course use crossvalidation !
+% % cc=50;
+% max_acc = -1;
+% max_cc = -1;
+% for cc=1:10:100
+%     options=sprintf('-t 0 -c %f -v 5 -b 1',cc);
+%     model=svmtrain(train_labels,train_data,options);
+%     if (model > max_acc)
+%         max_acc = model;
+%         max_cc = cc;
+%     end
+% end
+max_cc
 options=sprintf('-t 0 -c %f -b 1',max_cc);
 model=svmtrain(train_labels,train_data,options);
 [predict_label, accuracy , dec_values] = svmpredict(test_labels,test_data, model,'-b 1');
