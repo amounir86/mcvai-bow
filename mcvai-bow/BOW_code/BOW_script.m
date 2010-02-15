@@ -13,12 +13,12 @@ detect_opts.type='grid';                    % name detector
 detect_opts.min_scale=10;                    % minimal scale of feature points
 detect_opts.max_scale=50;                   % maximal scale of feature points
 detect_opts.npoints=600;                    % number of feature points
-detect_opts.name=['DET400p3',detect_opts.type];  % name which is used to save the detector information
+detect_opts.name=['DET400p4',detect_opts.type];  % name which is used to save the detector information
 
 do_detect(eventopts,detect_opts);
 
 %% descriptor
-descriptor_opts.type='rgb';                                                      % name descriptor
+descriptor_opts.type='rgbsift';                                                      % name descriptor
 descriptor_opts.detector_name=detect_opts.name;                                  % name detector (input)
 descriptor_opts.name=['DES',descriptor_opts.type,descriptor_opts.detector_name]; % output name (combines detector and descrtiptor name)
 descriptor_opts.patch_size=11;                                                   % normalized patch size
@@ -35,7 +35,7 @@ vocabulary_opts.name=['VOC',vocabulary_opts.type,descriptor_opts.name,num2str(vo
 do_vocabulary(eventopts,vocabulary_opts);
 
 %% assignment
-assignment_opts.type='pyramid';                                 % name of assignment method
+assignment_opts.type='3LHPyramid';                                 % name of assignment method
 assignment_opts.descriptor_name=descriptor_opts.name;       % name of descriptor (input)
 assignment_opts.vocabulary_name=vocabulary_opts.name;       % name of vocabulary (voc)
 assignment_opts.name=['BOW_1',descriptor_opts.type];         % name of assignment output

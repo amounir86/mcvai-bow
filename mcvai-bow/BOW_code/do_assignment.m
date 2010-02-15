@@ -43,6 +43,14 @@ for ii=1:nimages
                 assignment_opts.level = 3;
                 BOW=do_assignment_pyramids_lazebnik(opts,assignment_opts);
                 break;
+          case '3LVPyramid'
+                assignment_opts.level = 3;
+                BOW=do_assignment_pyramids_3VLevels(opts,assignment_opts);
+                break;
+          case '3LHPyramid'
+                assignment_opts.level = 3;
+                BOW=do_assignment_pyramids_3HLevels(opts,assignment_opts);
+                break;
             otherwise
                 display('A non existing assignment method is selected !!!!!');
       end
