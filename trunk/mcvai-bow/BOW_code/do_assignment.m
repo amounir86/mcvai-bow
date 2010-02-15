@@ -39,6 +39,10 @@ for ii=1:nimages
             case '1nn'
                 [minz index]=min(distance(points,vocabulary),[],2);
                 BOW(:,ii)=hist(index,(1:vocabulary_size));
+            case 'pyramid'
+                assignment_opts.level = 3;
+                BOW=do_assignment_pyramids_lazebnik(opts,assignment_opts);
+                break;
             otherwise
                 display('A non existing assignment method is selected !!!!!');
       end

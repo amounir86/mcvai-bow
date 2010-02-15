@@ -51,7 +51,7 @@ end
 if draw
     % plot precision/recall
     plot(rec,prec,'-', 'Color', col);
-    grid;
+%     grid;
     xlabel 'recall'
     ylabel 'precision'
     gtext(sprintf('class: %s, AP = %.3f',opts.classes{cls_index},ap), 'Color', col);
