@@ -40,6 +40,8 @@ if(detect_flag==1)
                 sift_detection(opts,detector_opts,ii); % sift detector
             case 'corner'
                 corner_detection(opts,detector_opts,ii); % corner detector
+            case 'grid'
+                grid_detection(opts,detector_opts,ii); % grid detector
             otherwise
                 display('A non existing detector is selected !!!!!');        
         end
