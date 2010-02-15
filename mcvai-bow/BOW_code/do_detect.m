@@ -4,7 +4,6 @@ function do_detect(opts,detector_opts)
 %           opts         : contains information about data set
 %           detector_opts: contains information about detector to use, and detector settings 
 
-
 % if no settings available use default settings 
 if ~isfield(detector_opts,'type');                  detector_opts.type='rand';             end
 
