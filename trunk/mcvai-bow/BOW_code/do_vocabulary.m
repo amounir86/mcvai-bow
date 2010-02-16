@@ -59,6 +59,8 @@ if(vocabulary_flag)
                 voc=points_total(ceil(rand(vocabulary_opts.size,1)*size(points_total,1)),:);
             case 'kmeans'
                 [index,voc] = kmeans(points_total,vocabulary_opts.size);
+            case 'sep_kmeans'
+                voc = separate_kmeans(points_total,vocabulary_opts.size, vocabulary_opts.size_color);
             otherwise
                 display('A non existing vocabulary-method is selected !!!!!');    
     end
