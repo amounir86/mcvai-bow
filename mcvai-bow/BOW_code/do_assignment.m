@@ -41,8 +41,10 @@ for ii=1:nimages
                 BOW(:,ii)=hist(index,(1:vocabulary_size));
             case 'pyramid'
                 assignment_opts.level = 3;
-                BOW=do_assignment_pyramids_lazebnik(opts,assignment_opts);
-                break;
+                BOW(:,ii)=do_assignment_pyramids_lazebnik_sepvoc(opts,assignment_opts,ii);
+            case 'sep_1nn'
+                % Separate histograms for color and SIFT
+                BOW(:,ii) = separate_hist(points, vocabulary);
           case '3LVPyramid'
                 assignment_opts.level = 3;
                 BOW=do_assignment_pyramids_3VLevels(opts,assignment_opts);
