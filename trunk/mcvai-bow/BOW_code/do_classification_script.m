@@ -7,7 +7,8 @@ load(eventopts.trainset);
 load(eventopts.testset);
 load(eventopts.labels);
 load([eventopts.globaldatapath,'/',assignment_opts.name])
-
+trainset = logical(trainset);
+testset = logical(testset);
 train_labels    = labels(trainset);          % contains the labels of the trainset
 train_data      = BOW(:,trainset)';          % contains the train data
 [train_labels,sindex]=sort(train_labels);    % we sort the labels to ensure that the first label is '1', the second '2' etc
@@ -24,14 +25,14 @@ pos_max_g = 1;
 vg = [10 20 30 40 50];
 for cc=250%1:10:500
     for gc=1:size(vg,2)
-        indices = crossvalind('Kfold',test_labels,5);
+        indices = crossvalind('Kfold',train_labels,5);
         meanap = zeros(1,5);
         meang = zeros(size(vg));
         options=sprintf('-t 2 -g %f -c %f -b 1',vg(gc),cc);
         for i=1:5
             test_c = (indices == i);
-            test_labels_c = test_labels(test_c);
-            test_data_c = test_data(test_c,:);
+            test_labels_c = train_labels(test_c);
+            test_data_c = train_data(test_c,:);
             train_labels_c = train_labels(~test_c);
             train_data_c = train_data(~test_c,:);
             model = svmtrain(train_labels_c,train_data_c,options);
