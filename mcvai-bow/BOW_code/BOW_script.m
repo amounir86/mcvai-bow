@@ -9,11 +9,12 @@ detect_opts=[];descriptor_opts=[];vocabulary_opts=[];assignment_opts=[];
 
 
 %% detector
-detect_opts.type='corner';                    % name detector
+detect_opts.type='grid';                    % name detector
 detect_opts.min_scale=10;                    % minimal scale of feature points
 detect_opts.max_scale=50;                   % maximal scale of feature points
-detect_opts.npoints=400;                    % number of feature points
-detect_opts.name=['DET400p4',detect_opts.type];  % name which is used to save the detector information
+detect_opts.npoints=600;                    % number of feature points
+detect_opts.name=['DET600',detect_opts.type];  % name which is used to save the detector information
+
 do_detect(eventopts,detect_opts);
 
 %% descriptor
@@ -24,10 +25,11 @@ descriptor_opts.patch_size=11;                                                  
 do_descriptor(eventopts,descriptor_opts);
 
 %% vocabulary
-vocabulary_opts.type='sep_kmeans';   % name vocabulary method
+
+vocabulary_opts.type='sep_kmeans';                          % name vocabulary method
 vocabulary_opts.force=1;                                % force=1 forces the vocabulary to be recomputed even when it already exists
-vocabulary_opts.size=400;   
-vocabulary_opts.size_color=256;                         % number of visual words in vocabulary
+vocabulary_opts.size=500;   
+vocabulary_opts.size_color=11;                         % number of visual words in vocabulary
 vocabulary_opts.sample_rate=10;                         % number of points sampled from each image on which to apply vocabulary method
 vocabulary_opts.descriptor_name=descriptor_opts.name;   % name of descriptors (input)
 vocabulary_opts.name=['VOC',vocabulary_opts.type,descriptor_opts.name,num2str(vocabulary_opts.size)];  % output name
@@ -36,7 +38,8 @@ do_vocabulary(eventopts,vocabulary_opts);
 
 %% assignment
 
-assignment_opts.type='pyramid';                                 % name of assignment method
+% assignment_opts.type='3LHPyramid';                                 % name of assignment method
+assignment_opts.type='sep_pyramid';                                 % name of assignment method
 assignment_opts.descriptor_name=descriptor_opts.name;       % name of descriptor (input)
 assignment_opts.vocabulary_name=vocabulary_opts.name;       % name of vocabulary (voc)
 assignment_opts.name=['BOW_1',descriptor_opts.type];         % name of assignment output
@@ -56,6 +59,7 @@ for cl=1:eventopts.nclasses
     [rec,prec,averagePerc(cl)] = do_eval(eventopts,cl,dec_values(:,cl));
 end
 hold off
+legend(eventopts.classes,'Location','SouthWest')
 
 %% Show results
 

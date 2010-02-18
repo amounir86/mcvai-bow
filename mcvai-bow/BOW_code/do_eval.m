@@ -31,29 +31,32 @@ end
 col = 'NONE';
 switch cls_index
     case 1
-        col = 'y'
+        col = 'yo-'
     case 2
-        col = 'm'
+        col = 'm^-'
     case 3
-        col = 'c'
+        col = 'r+-'
     case 4
-        col = 'r'
+        col = 'g+-'
     case 5
-        col = 'g'
+        col = 'cd-'
     case 6
-        col = 'b'
+        col = 'b^-'
     case 7
-        col = 'k'
+        col = 'k-'
     otherwise
         'Hi';
 end
 
+grid on
+
 if draw
     % plot precision/recall
-    plot(rec,prec,'-', 'Color', col);
+%     plot(rec,prec,'-', 'Color', col);
+      plot(rec,prec, col, 'LineWidth',2);
 %     grid;
     xlabel 'recall'
     ylabel 'precision'
-    gtext(sprintf('class: %s, AP = %.3f',opts.classes{cls_index},ap), 'Color', col);
+%     gtext(sprintf('class: %s, AP = %.3f',opts.classes{cls_index},ap), 'Color', col);
     axis([0 1 0 1]);
 end
