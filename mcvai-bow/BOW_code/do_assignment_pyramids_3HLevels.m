@@ -1,4 +1,4 @@
-function BOW=do_assignment_pyramids_3HLevels(opts,assignment_opts)
+function BOW=do_assignment_pyramids_3HLevels(opts,assignment_opts, iIndex)
 %% Assign feature points to visual vocabulary
 % input:
 %           opts            : contains information about data set
@@ -18,19 +18,20 @@ display('Computing Pyramids!');
 %% Load data set information and vocabulary
 load(opts.image_names);
 nimages=opts.nimages;
-vocabulary=getfield(load([opts.globaldatapath,'/',assignment_opts.vocabulary_name]),'voc');
-vocabulary_size=size(vocabulary,1);dictionarySize=vocabulary_size;
+vocabularyMerged=getfield(load([opts.globaldatapath,'/',assignment_opts.vocabulary_name]),'voc');
 
 %% Parameters (levels starts with L1)
-pyramidLevels=assignment_opts.level;
-Levels=pyramidLevels;
-BOW=[];pyramid_all = [];
+pyramidLevels = assignment_opts.level;
+Levels = pyramidLevels;
+BOW=[]; pyramid_all=[];
 
-%% Apply assignment method to data set and build pyramid     
-h = waitbar(0,'Calculating pyramid. Please wait...');
+for v=1:2
 
-for iIndex=1:nimages    
-    
+    vocabulary = vocabularyMerged{v};
+    vocabulary_size=size(vocabulary,1);dictionarySize=vocabulary_size;
+
+    %% Apply assignment method to data set and build pyramid
+
     % Set where local data is saved.
     image_dir=sprintf('%s/%s/',opts.localdatapath,num2string(iIndex,3));
 
@@ -38,11 +39,17 @@ for iIndex=1:nimages
     points = getfield(load([image_dir,'/',assignment_opts.detector_name]),'points');
 
     % Load descriptors
-    descriptors = getfield(load([image_dir,'/',assignment_opts.descriptor_name]),'descriptors');     
+    descriptors = getfield(load([image_dir,'/',assignment_opts.descriptor_name]),'descriptors');
+    
+    if v == 1
+        descriptors = descriptors(:,1:3);
+    elseif v == 2
+        descriptors = descriptors(:,4:end);
+    end
 
     [minz index] = min(distance(descriptors,vocabulary),[],2);
     index_list{iIndex}=index(:,1);
-   
+
     %% Read the image and get the properties
     img=imread(sprintf('%s/%s',opts.imgpath,image_names{iIndex}));
     [m n p] = size(img);
@@ -81,17 +88,26 @@ for iIndex=1:nimages
     for i=1:3
         pyramid_cell{2}(1,:) = pyramid_cell{2}(1,:) + pyramid_cell{1}(i,:);
     end
-    
+
     %% stack all the histograms with appropriate weights
     pyramid = [];
-    pyramid = [pyramid pyramid_cell{1}(:)' .* 2^(-1)];
-    pyramid = [pyramid pyramid_cell{2}(:)' .* 2^(-2)];
-    pyramid_all = [pyramid_all; pyramid];
-    waitbar(iIndex/nimages,h);
+    pyramid = [pyramid pyramid_cell{1}(:)' .* (3^(-1) * 2.0)];
+    pyramid = [pyramid pyramid_cell{2}(:)' .* (3^(-1) * 1.0)];
+    
+    pyramid_all = [pyramid_all, pyramid];
 end
 
+phog_I = read_image_db(opts, iIndex);
+phog_bin = 8;
+phog_angle = 360;
+phog_L=2;
+phog_roi = [1;size(phog_I, 1);1;size(phog_I, 2)];
+phog = anna_phog(phog_I,phog_bin,phog_angle,phog_L,phog_roi);
+phog = phog';
+
+pyramid_all = [pyramid_all, phog];
+
 BOW =pyramid_all';
-close(h);
 
 % save the BOW representation in opts.globaldatapath                                                                
 save ([opts.globaldatapath ,'/',assignment_opts.name,'L',num2str(assignment_opts.level)],'BOW');

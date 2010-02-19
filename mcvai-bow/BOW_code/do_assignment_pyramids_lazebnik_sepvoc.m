@@ -100,13 +100,30 @@ for v=1:2
     %% stack all the histograms with appropriate weights
     pyramid = [];
     for l = 1:pyramidLevels-1
+%         pyramid_cell{l} = normalize(pyramid_cell{l}, 1);
         pyramid = [pyramid pyramid_cell{l}(:)' .* 2^(-l)];
     end
+    
+%     pyramid_cell{pyramidLevels} = normalize(pyramid_cell{pyramidLevels}, 1);
     pyramid = [pyramid pyramid_cell{pyramidLevels}(:)' .* 2^(1-pyramidLevels)];
+    
+    if (v == 2)
+        pyramid = pyramid .* 0.0; 
+    end
+    
     pyramid_all = [pyramid_all, pyramid];
 %     waitbar(iIndex/nimages,h);
 end
 
+phog_I = read_image_db(opts, iIndex);
+phog_bin = 8;
+phog_angle = 360;
+phog_L=2;
+phog_roi = [1;size(phog_I, 1);1;size(phog_I, 2)];
+phog = anna_phog(phog_I,phog_bin,phog_angle,phog_L,phog_roi);
+phog = phog';
+
+pyramid_all = [pyramid_all, phog];
 BOW =pyramid_all';
 % close(h);
 
