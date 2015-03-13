@@ -1,0 +1,1 @@
+This project is the project of Bag of words for the CVC in the UAB.
